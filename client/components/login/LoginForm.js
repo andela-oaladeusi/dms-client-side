@@ -2,7 +2,7 @@ import React from 'react';
 import TextFieldGroup from '../common/testFieldGroup';
 import validateInput from '../../validations/login';
 import { connect } from 'react-redux';
-import { login } from '../../actions/login'
+import { login } from '../../actions/authActions'
 import { addFlashMessage } from '../../actions/flashMessages';
 
 class LoginForm extends React.Component {
@@ -36,7 +36,7 @@ class LoginForm extends React.Component {
 				(res) => { 
 					this.props.addFlashMessage({
 						type: 'success',
-						text: `You have successfully logged in, WELCOME ${res.data.user.username}`
+						text: `You have successfully logged in, WELCOME`
 					})
 					this.context.router.push('/');
 				},

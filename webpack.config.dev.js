@@ -25,5 +25,9 @@ export default {
 				loaders: ['react-hot-loader', 'babel-loader']
 			}
 		]
+	},
+	node: {
+		net: 'empty',
+		dns: 'empty'
 	}
 }
