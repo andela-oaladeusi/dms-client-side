@@ -44,7 +44,13 @@ class SignupForm extends React.Component {
 					})
 					this.context.router.push('/');
 				},
-				(data) => this.setState({ errors: data, isLoading: false })
+				(error) => {
+					this.props.addFlashMessage({
+						type: 'error',
+						text: error.data.message
+					});
+					this.setState({ isLoading: false });
+				}
 			);
 		} 
 	}
@@ -55,7 +61,6 @@ class SignupForm extends React.Component {
 			<form onSubmit={this.onSubmit}>
 				<h1>Join our community!</h1>
 				<div>Create, Save and Share Your Documents</div>
-				{errors.message && <span className="help-block">{errors.message}</span>}
 
 				<TextFieldGroup
 					error={errors.username}
