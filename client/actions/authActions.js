@@ -9,16 +9,28 @@ export function setCurrentUser(user) {
 	}
 }
 
+export function logout() {
+	return dispatch => {
+		localStorage.removeItem('jwtToken');
+		localStorage.removeItem('dmsUser');
+		setAuthorisationToken(false);
+		dispatch(setCurrentUser({}));
+	}
+}
+
+
 export function login(data) {
 	return dispatch => {
 		return axios.post('https://andela-dms.herokuapp.com/users/login', data)
 			.then(res => {
+				delete res.data.user.email;
 				const token = res.data.token;
-				const { username, id, firstname, lastname } = res.data.user;
+				const user = JSON.stringify(res.data.user);
+				const dmsUser = res.data.user;
 				localStorage.setItem('jwtToken', token);
-				localStorage.setItem('dmsUser', { id, username , firstname, lastname });
+				localStorage.setItem('dmsUser', user);
 				setAuthorisationToken(token);
-				dispatch(setCurrentUser({ id, username , firstname, lastname }))
+				dispatch(setCurrentUser(dmsUser));
 			});
 	}
 }
