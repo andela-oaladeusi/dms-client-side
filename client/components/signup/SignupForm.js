@@ -112,7 +112,7 @@ class SignupForm extends React.Component {
 					field="passwordConfirmation"
 				/>
 
-				<div className="form-group">
+				<div className="form-group text-center">
 					<button disabled={this.state.isLoading} className="btn btn-primary btn-lg">
 						Sign Up
 					</button>

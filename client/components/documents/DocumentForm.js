@@ -1,7 +1,9 @@
 import React from 'react';
 import TextFieldGroup from '../common/testFieldGroup';
 import { connect } from 'react-redux';
-import { createDocument } from '../../actions/documentActions'
+import { createDocument, getDocumentType } from '../../actions/documentActions'
+import classnames from 'classnames';
+import { MenuItem, Button, Navbar, FormGroup, FormControl, DropdownButton, ControlLabel } from 'react-bootstrap';
 
 class DocumentForm extends React.Component {
 	constructor(props) {
@@ -9,10 +11,13 @@ class DocumentForm extends React.Component {
 		this.state = {
 			title: '',
 			content: '',
+			type: '',
 			errors: {},
-			isLoading: false
+			isLoading: false,
+			docType: [],
+			access: ''
 		};
-
+		this.getType();
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 	}
@@ -21,13 +26,37 @@ class DocumentForm extends React.Component {
 		this.setState({ [e.target.name]: e.target.value })
 	}
 
+	getType(){
+		return this.props.getDocumentType().then(
+			(res) => {
+				this.setState({ docType: res.data.types.rows });
+				return res.data.types.rows;
+			},
+			(err) => {
+				console.log(err);
+			}
+		)
+	}
+
 	onSubmit(e) {
 		e.preventDefault();
 		this.props.createDocument(this.state);
 	}
 
 	render() {
-		const { title, content, errors, isLoading } = this.state;
+		const style = {
+			width: "100%",
+			height: "50%"
+		};
+		const { title, content, type, errors, isLoading, docType, access } = this.state;
+
+		const typeOption = docType.map((value, index) =>
+			<option key={index} value={value.title}>{value.title}</option>
+		);
+
+		const accessOption = ['public', 'private', 'role'].map((value, index) =>
+			<option key={index} value={value}>{value}</option>
+		);
 
 		return (
 			<form onSubmit={this.onSubmit}>
@@ -42,14 +71,26 @@ class DocumentForm extends React.Component {
 					error={errors.title}
 				/>
 
-				<TextFieldGroup
-					field="content"
-					label="Content"
-					name="content"
-					value={content}
-					onChange={this.onChange}
-					error={errors.content}
-				/>
+				<FormGroup controlId="formControlsTextarea" className={classnames("form-group", {'has-error': errors.content})}>
+					<ControlLabel>Content</ControlLabel>
+					<FormControl componentClass="textarea" placeholder="Type content here..." style={style} value={content} name="content" onChange={this.onChange} type="text"/>
+				</FormGroup>
+
+				<FormGroup controlId="formControlsSelect" >
+					<ControlLabel>Type</ControlLabel>
+					<FormControl componentClass="select" placeholder="select" name="type" onChange={this.onChange}>
+						<option value="">Choose Document's Type</option>
+						{typeOption}
+					</FormControl>
+				</FormGroup>
+
+				<FormGroup controlId="formControlsSelect" >
+					<ControlLabel>Access</ControlLabel>
+					<FormControl componentClass="select" placeholder="select" name="access" onChange={this.onChange}>
+						<option value="">Document Access</option>
+						{accessOption}
+					</FormControl>
+				</FormGroup>
 
 				<button type="submit" disabled={isLoading} className="btn btn-primary">Save</button>
 			</form>
@@ -58,7 +99,8 @@ class DocumentForm extends React.Component {
 }
 
 DocumentForm.propTypes = {
-	createDocument: React.PropTypes.func.isRequired
+	createDocument: React.PropTypes.func.isRequired,
+	getDocumentType: React.PropTypes.func.isRequired
 }
 
-export default connect(null, { createDocument })(DocumentForm);
+export default connect(null, { createDocument, getDocumentType })(DocumentForm);
