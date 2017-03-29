@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { fetchUserDocument } from '../../actions/documentActions';
-import { Pagination } from 'react-bootstrap';
+import { Pagination, Button } from 'react-bootstrap';
 import ShowDocuments from './ShowDocuments';
+import ListDocuments from './ListDocuments';
 
 class UserDocument extends React.Component {
 
@@ -13,7 +14,8 @@ class UserDocument extends React.Component {
 			pagination: '',
 			userInfo: '',
 			documents: [],
-			activePage: 1
+			activePage: 1,
+			tabular: false
 		}
 
 		const username = this.props.params.username;
@@ -44,18 +46,27 @@ class UserDocument extends React.Component {
     });
   }
 
+	onClick(e) {
+		if (this.state.tabular) {
+			this.setState({ tabular: false });
+		} else {
+			this.setState({ tabular: true });
+		}
+	}
+
 
 	render() {
-		const { pagination, userInfo, documents } = this.state;
+		const { pagination, userInfo, documents, tabular } = this.state;
     const show = documents.map((doc, index) => <ShowDocuments key={index} doc={doc} />);
 		return (
 			<div className="row">
 				<div className="col-md-3">
 				  <h2>User</h2>
 					<div>{userInfo.username}</div>
+					<Button onClick={this.onClick.bind(this)}>{ tabular ? 'View Document as a post' :'View document in tabular form'}</Button>
 				</div>
 					<div className="col-md-6">
-						{show}
+						{tabular ? <ListDocuments docs={documents}/> : show}
 						<hr/>
 						<Pagination
 							bsSize="small"

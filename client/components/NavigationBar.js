@@ -24,6 +24,7 @@ class NavigationBar extends React.Component {
 
 		const userLinks = (
 			<ul className="nav navbar-nav navbar-right">
+				<li> <Link to="/users/list">List of Users</Link></li>
 				<li> <Link to={userDoc}>My Document</Link></li>
 				<li> <Link to="/documents">Create Document</Link></li>
 				<li> <a href="#" onClick={this.logout.bind(this)}>Logout</a></li>

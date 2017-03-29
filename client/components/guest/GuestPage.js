@@ -1,5 +1,4 @@
 import React from 'react';
-import { Carousel } from 'react-bootstrap';
 import LoginPage from '../login/LoginPage';
 
 class GuestPage extends React.Component {

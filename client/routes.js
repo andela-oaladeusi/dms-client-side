@@ -9,6 +9,7 @@ import DocumentPage from './components/documents/DocumentPage';
 import SingleDocument from './components/documents/SingleDocument';
 import UserDocument from './components/documents/UserDocument';
 import HomePage from './components/home/HomePage';
+import ListUser from './components/user/ListUser';
 
 import requireAuth from './utils/requireAuth';
 
@@ -17,8 +18,8 @@ export default (
 		<IndexRoute component={HomePage} />
 		<Route path="signup" component={SignupPage} />
 		<Route path="login" component={LoginPage} />
-		<Route path="documents/public" component={PublicDocuments} />
 		<Route path="documents" component={requireAuth(DocumentPage)} />
+		<Route path="users/list" component={requireAuth(ListUser)} />
 		<Route path="documents/:title" component={SingleDocument} />
 		<Route path="users/:username/documents" component={requireAuth(UserDocument)} />
 	</Route>

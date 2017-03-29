@@ -11,6 +11,7 @@ export function setCurrentUser(user) {
 
 export function logout() {
 	return dispatch => {
+		axios.post('https://andela-dms.herokuapp.com/users/logout');
 		localStorage.removeItem('jwtToken');
 		localStorage.removeItem('dmsUser');
 		setAuthorisationToken(false);
