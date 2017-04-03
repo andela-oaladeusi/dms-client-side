@@ -50,10 +50,12 @@
     "react-remarkable": "^1.1.1",
     "react-router": "^3.0.2",
     "react-simplemde-editor": "^3.6.10",
+    "react-tinymce": "^0.5.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
     "shortid": "^2.2.8",
     "style-loader": "^0.16.0",
+    "tinymce": "4.5.5",
     "validator": "^7.0.0"
   }
 }

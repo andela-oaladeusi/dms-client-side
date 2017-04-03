@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_AVAILABLE_DOCUMENT } from '../actions/types';
+import { SET_AVAILABLE_DOCUMENT, CREATE_DOCUMENT_MESSAGE, UPDATE_DOCUMENT_MESSAGE, SEARCH_DOCUMENT_MESSAGE } from '../actions/types';
 
 export function setAvailableDocument(doc) {
 	return {
@@ -8,10 +8,56 @@ export function setAvailableDocument(doc) {
 	}
 }
 
+export function createDocumentMessage(done) {
+	return {
+		type: CREATE_DOCUMENT_MESSAGE,
+		createDoc: done
+	}
+}
+
+export function updateDocumentMessage(done) {
+	return {
+		type: UPDATE_DOCUMENT_MESSAGE,
+		updateDoc: done
+	}
+}
+
+export function searchDocumentMessage(searchResult) {
+	return {
+		type: SEARCH_DOCUMENT_MESSAGE,
+		searchResult
+	}
+}
+
 export function createDocument(document) {
 	return dispatch => {
-		return axios.post('https://andela-dms.herokuapp.com/documents', document);
+		return axios.post('https://andela-dms.herokuapp.com/documents', document).then(res => {
+			dispatch(createDocumentMessage(true));
+		})
+		.catch(err =>
+			dispatch(createDocumentMessage(err.data.message)));
 	};
+}
+
+export function updateDocument(document, id) {
+	return dispatch => {
+		return axios.put(`https://andela-dms.herokuapp.com/documents/${id}`, document).then(res => {
+			dispatch(updateDocumentMessage(true));
+		})
+		.catch(err =>
+			dispatch(updateDocumentMessage(err.data[0].message)));
+	};
+}
+
+export function searchDocument(query) {
+	return dispatch => {
+		return axios.get(`https://andela-dms.herokuapp.com/documents/search/?query=${query}`).then(res => {
+			dispatch(searchDocumentMessage(res.data));
+		})
+		.catch(err => {
+			dispatch(searchDocumentMessage(err.data.message));
+		})
+	}
 }
 
 export function publicDocument() {

@@ -19,6 +19,12 @@
       .CodeMirror, .CodeMirror-scroll {
         height: 20%;
       }
+		.modal-container {
+    position: relative;
+  }
+  .modal-container .modal, .modal-container .modal-backdrop {
+    position: absolute;
+  }
     </style>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
 
@@ -27,6 +33,7 @@
 
   <body>
     <div id="app"></div>
+		<script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="/bundle.js"></script>
   </body>

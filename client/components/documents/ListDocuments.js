@@ -1,11 +1,13 @@
 import React from 'react';
 import moment from 'moment';
 import { Table, Button } from 'react-bootstrap';
+import { Link } from 'react-router';
 
 class ListDocuments extends React.Component{
 	render() {
 		const { docs } = this.props;
 		const list = docs.map((doc, index) => {
+			const full = `/documents/${doc.id}-${doc.title}`;
 			return ( <tr key={index}>
 								<td>{index + 1}</td>
 								<td>{doc.id}</td>
@@ -17,7 +19,7 @@ class ListDocuments extends React.Component{
 								<td>{doc.ownerId}</td>
 								<td>{moment(doc.createdAt).format("DD-MM-YYYY h:mm:ss")}</td>
 								<td>{moment(doc.updatedAt).format("DD-MM-YYYY h:mm:ss")}</td>
-								<td><Button>View</Button></td>
+								<td><Link to={full} className="btn btn-default">View</Link></td>
 							</tr>
 						);
 		});
