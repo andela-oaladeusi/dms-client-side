@@ -52,9 +52,9 @@ class NavigationBar extends React.Component {
 
 		const userLinks = (
 			<ul className="nav navbar-nav navbar-right">
-				<li> <Link to="/users/list">List of Users</Link></li>
+				{ user.id === 1 ? <li> <Link to="/users/list">List of Users</Link></li> : '' }
 				<li> <Link to={userDoc}>My Document</Link></li>
-				<li> <a onClick={this.show.bind(this)}>Create Document</a></li>
+				<li> <a onClick={this.show.bind(this)}>Write a Document</a></li>
 				<li> <a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
 				<li> <Link to="/users/profile">{user.username}</Link></li>
 			</ul>
@@ -89,7 +89,7 @@ class NavigationBar extends React.Component {
 					</div>
 
 					<div className="collapse navbar-collapse">
-						{search}
+						{this.props.auth.isAuthenticated ? search : ''}
 						{ isAuthenticated ? userLinks : guestLinks }
 					</div>
 				</div>

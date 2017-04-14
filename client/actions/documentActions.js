@@ -51,7 +51,7 @@ export function updateDocument(document, id) {
 
 export function searchDocument(query) {
 	return dispatch => {
-		return axios.get(`https://andela-dms.herokuapp.com/documents/search/?query=${query}`).then(res => {
+		return axios.get(`https://andela-dms.herokuapp.com/documents/search/?query=${query.query}&offset=${query.offset}`).then(res => {
 			dispatch(searchDocumentMessage(res.data));
 		})
 		.catch(err => {

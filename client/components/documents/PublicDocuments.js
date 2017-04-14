@@ -1,9 +1,9 @@
 import React from 'react';
+import Loading from 'react-loading';
 import { connect } from 'react-redux';
 import { avalaibleDocument } from '../../actions/documentActions'
 import ShowDocuments from './ShowDocuments';
 import { Pagination, Button } from 'react-bootstrap';
-import ListDocuments from './ListDocuments';
 
 class PublicDocuments extends React.Component {
 	constructor(props) {
@@ -11,13 +11,15 @@ class PublicDocuments extends React.Component {
 		this.state = {
 			avalaibleDoc: [],
 			pagination: '',
-			activePage: 1,
-			tabular: false
+			activePage: 1
 		}
 
 		this.showDocument = this.showDocument.bind(this);
 		this.handleSelect = this.handleSelect.bind(this);
-	 	this.showDocument(0);
+	}
+
+	componentDidMount() {
+		this.showDocument(0);
 	}
 
 	showDocument(offset) {
@@ -40,29 +42,18 @@ class PublicDocuments extends React.Component {
   }
 
 	onClick(e) {
-		if (this.state.tabular) {
-			this.setState({ tabular: false });
-		} else {
-			this.setState({ tabular: true });
-		}
+
 	}
 
 	render() {
-		const { avalaibleDoc, pagination, tabular } = this.state;
+		const { avalaibleDoc, pagination } = this.state;
 		const show = avalaibleDoc.map((doc, index) => <ShowDocuments key={index} doc={doc} />);
 		return (
 			<div className="row">
 				<div className="col-md-3">
-					{ this.props.auth.user.id === 1
-						? <div>
-								<h2>Admin</h2>
-								<div>{this.props.username}</div>
-					      <Button onClick={this.onClick.bind(this)}>{ tabular ? 'View Document as a post' :'View document in tabular form'}</Button>
-						  </div>
-						: '' }
 				</div>
 				<div className="col-md-6">
-				  {tabular ? <ListDocuments docs={avalaibleDoc}/> : show}
+				  {show}
 				<Pagination
           bsSize="small"
           items={pagination.page_count}

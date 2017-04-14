@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import { fetchUserDocument } from '../../actions/documentActions';
 import { Pagination, Button } from 'react-bootstrap';
 import ShowDocuments from './ShowDocuments';
-import ListDocuments from './ListDocuments';
 
 class UserDocument extends React.Component {
 
@@ -14,15 +13,16 @@ class UserDocument extends React.Component {
 			pagination: '',
 			userInfo: '',
 			documents: [],
-			activePage: 1,
-			tabular: false
+			activePage: 1
 		}
+		this.fetchUserDocument = this.fetchUserDocument.bind(this);
+		this.handleSelect = this.handleSelect.bind(this);
+	}
 
+	componentWillMount() {
 		const username = this.props.params.username;
 		const regex = new RegExp(/(\d+)(?!.-)/);
 		const id = username.match(regex)[0];
-		this.fetchUserDocument = this.fetchUserDocument.bind(this);
-		this.handleSelect = this.handleSelect.bind(this);
 		this.fetchUserDocument({ id, offset: 0 });
 	}
 
@@ -46,27 +46,18 @@ class UserDocument extends React.Component {
     });
   }
 
-	onClick(e) {
-		if (this.state.tabular) {
-			this.setState({ tabular: false });
-		} else {
-			this.setState({ tabular: true });
-		}
-	}
-
 
 	render() {
-		const { pagination, userInfo, documents, tabular } = this.state;
+		const { pagination, userInfo, documents } = this.state;
     const show = documents.map((doc, index) => <ShowDocuments key={index} doc={doc} />);
 		return (
 			<div className="row">
 				<div className="col-md-3">
 				  <h2>User</h2>
 					<div>{userInfo.username}</div>
-					<Button onClick={this.onClick.bind(this)}>{ tabular ? 'View Document as a post' :'View document in tabular form'}</Button>
 				</div>
 					<div className="col-md-6">
-						{tabular ? <ListDocuments docs={documents}/> : show}
+						{show}
 						<hr/>
 						<Pagination
 							bsSize="small"

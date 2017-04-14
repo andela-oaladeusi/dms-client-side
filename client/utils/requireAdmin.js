@@ -10,6 +10,12 @@ export default function(ComposedComponent) {
 					type: 'error',
 					text: 'You need to login to access this page'
 				});
+				this.context.router.push('/login');
+			} else if(this.props.user.id !== 1) {
+				this.props.addFlashMessage({
+					type: 'error',
+					text: 'Page not found'
+				});
 				this.context.router.push('/');
 			}
 		}
@@ -43,7 +49,8 @@ export default function(ComposedComponent) {
 
 	function mapStateToProps(state) {
 		return {
-			isAuthenticated: state.auth.isAuthenticated
+			isAuthenticated: state.auth.isAuthenticated,
+			user: state.auth.user
 		}
 	}
 
