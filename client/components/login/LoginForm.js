@@ -1,4 +1,5 @@
 import React from 'react';
+import Loading from 'react-loading';
 import TextFieldGroup from '../common/testFieldGroup';
 import validateInput from '../../validations/login';
 import { connect } from 'react-redux';
@@ -67,6 +68,7 @@ class LoginForm extends React.Component {
 					value={email}
 					error={errors.email}
 					onChange={this.onChange}
+					disabled={isLoading}
 				/>
 
 				<TextFieldGroup
@@ -76,9 +78,10 @@ class LoginForm extends React.Component {
 					error={errors.password}
 					onChange={this.onChange}
 					type="password"
+					disabled={isLoading}
 				/>
 
-				<div className="form-group text-center"><button className="btn btn-primary btn-lg" disabled={isLoading}>Login</button></div>
+				<div className="form-group text-center">{isLoading ? <Loading type='bubbles' color='#e3e3e3'/> : ''}<button className="btn btn-primary btn-lg" disabled={isLoading}>Login</button></div>
 			</form>
 		);
 	}

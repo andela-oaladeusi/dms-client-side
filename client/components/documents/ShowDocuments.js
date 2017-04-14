@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { Button, Modal } from 'react-bootstrap';
 import DocumentForm from './DocumentForm';
 import { addFlashMessage } from '../../actions/flashMessages';
+import moment from 'moment';
 
 class ShowDocuments extends React.Component {
 
@@ -54,6 +55,7 @@ class ShowDocuments extends React.Component {
 				<hr/>
 				<p>Access: {doc.access}</p>
 				<p>Category: {doc.type}</p>
+				<p>Published Date: {moment(doc.createdAt).format("DD-MM-YYYY")}</p>
 					{userInfo.id === doc.ownerId ? <Button onClick={(e) => this.editDoc(e)}>Edit</Button> : ''}
 					{userInfo.id === doc.ownerId ? <Button onClick={(e) => this.deleteDoc(e)}>Delete</Button> : ''}
 					{userInfo.id === doc.ownerId ? <Button onClick={(e) => this.disableDoc(e)}>Disable</Button> : ''}
