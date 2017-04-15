@@ -15,40 +15,39 @@ class UserProfile extends React.Component {
 	
 	render() {
 		const { userInfo } = this.props;
-		return(
-			<div>
-				<Panel header={'PROFILE'}>
-          <form>
-						<FormGroup>
-							<ControlLabel>Username</ControlLabel>
-							<FormControl disabled type="text" name="username" value={userInfo.username} />
-						</FormGroup>
-						<FormGroup>
-							<ControlLabel>Firstname</ControlLabel>
-							<FormControl disabled type="text" name="firstname" value={userInfo.firstname} />
-						</FormGroup>
-						<FormGroup>
-							<ControlLabel>Lastname</ControlLabel>
-							<FormControl disabled type="text" name="lastname" value={userInfo.lastname} />
-						</FormGroup>
-						<FormGroup>
-							<ControlLabel>Email</ControlLabel>
-							<FormControl disabled type="text" name="email" value={userInfo.email} />
-						</FormGroup>
-						<FormGroup controlId="formControlsTextarea" >
-							<ControlLabel>About YOU</ControlLabel>
-							<FormControl componentClass="textarea" placeholder="Type content here..." />
-						</FormGroup>
-						<button type="submit" className="btn btn-primary">Update Profile</button>
-					</form>
-        </Panel>
-			</div>
+		return (
+		  <div>
+		    <Panel header={'PROFILE'}>
+              <form>
+				<FormGroup>
+					<ControlLabel>Username</ControlLabel>
+					<FormControl disabled type="text" name="username" value={userInfo.username} />
+				</FormGroup>
+				<FormGroup>
+					<ControlLabel>Firstname</ControlLabel>
+					<FormControl disabled type="text" name="firstname" value={userInfo.firstname} />
+				</FormGroup>
+				<FormGroup>
+					<ControlLabel>Lastname</ControlLabel>
+					<FormControl disabled type="text" name="lastname" value={userInfo.lastname} />
+				</FormGroup>
+				<FormGroup>
+					<ControlLabel>Email</ControlLabel>
+					<FormControl disabled type="text" name="email" value={userInfo.email} />
+				</FormGroup>
+				<FormGroup controlId="formControlsTextarea" >
+					<ControlLabel>About YOU</ControlLabel>
+					<FormControl componentClass="textarea" placeholder="Type content here..." />
+				</FormGroup>
+				<button type="submit" className="btn btn-primary">Update Profile</button>
+			  </form>
+            </Panel>
+		  </div>
 		)
 	}
 }
 
 function mapStateToProps(state) {
-	console.log(state.auth.user);
 	return {
 		userInfo: state.auth.user
 	}

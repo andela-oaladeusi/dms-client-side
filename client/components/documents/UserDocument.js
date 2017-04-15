@@ -19,7 +19,7 @@ class UserDocument extends React.Component {
 		this.handleSelect = this.handleSelect.bind(this);
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		const username = this.props.params.username;
 		const regex = new RegExp(/(\d+)(?!.-)/);
 		const id = username.match(regex)[0];

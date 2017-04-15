@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_SEARCH_USER } from './types';
+import { SET_SEARCH_USER, SET_FETCH_USERS } from './types';
 
 export function searchUserMessage(searchResult) {
 	return {
@@ -8,9 +8,22 @@ export function searchUserMessage(searchResult) {
 	}
 }
 
+export function fetchUserMessage(data) {
+	return {
+		type: SET_FETCH_USERS,
+		data
+	}
+}
+
 export function listUsers() {
 	return dispatch => {
-		return axios.get('https://andela-dms.herokuapp.com/users');
+		return axios.get('https://andela-dms.herokuapp.com/users')
+      .then((res) => {
+        return dispatch(fetchUserMessage(res.data.users.rows))
+      })
+      .catch((err) => {
+        return dispatch(fetchUserMessage(err.data));
+      })
 	};
 }
 

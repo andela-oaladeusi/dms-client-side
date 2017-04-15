@@ -52,7 +52,9 @@ class NavigationBar extends React.Component {
 
 		const userLinks = (
 			<ul className="nav navbar-nav navbar-right">
-				{ user.id === 1 ? <li> <Link to="/users/list">List of Users</Link></li> : '' }
+				{ user.id === 1 ? <li> <Link to="/users/list">Users</Link></li> : '' }
+        { user.id === 1 ? <li> <Link to="/roles/list">Roles</Link></li> : '' }
+        { user.id === 1 ? <li> <Link to="/types/list">Types</Link></li> : '' }
 				<li> <Link to={userDoc}>My Document</Link></li>
 				<li> <a onClick={this.show.bind(this)}>Write a Document</a></li>
 				<li> <a href="#" onClick={this.logout.bind(this)}>Logout</a></li>

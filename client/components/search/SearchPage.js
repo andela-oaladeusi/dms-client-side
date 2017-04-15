@@ -153,6 +153,7 @@ SearchPage.contextTypes = {
 }
 
 function mapStateToProps(state) {
+  console.log(state);
 	return {
 		docSearchResult: state.documents.searchResult,
 		userSearchResult: state.users.searchResult

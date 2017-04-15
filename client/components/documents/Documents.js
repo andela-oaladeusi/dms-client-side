@@ -5,7 +5,7 @@ import { avalaibleDocument } from '../../actions/documentActions'
 import ShowDocuments from './ShowDocuments';
 import { Pagination, Button } from 'react-bootstrap';
 
-class PublicDocuments extends React.Component {
+class Documents extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -67,7 +67,7 @@ class PublicDocuments extends React.Component {
 	}
 }
 
-PublicDocuments.propTypes = {
+Documents.propTypes = {
 	avalaibleDocument: React.PropTypes.func.isRequired
 }
 
@@ -78,4 +78,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { avalaibleDocument })(PublicDocuments);
+export default connect(mapStateToProps, { avalaibleDocument })(Documents);

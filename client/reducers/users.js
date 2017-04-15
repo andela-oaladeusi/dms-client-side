@@ -1,4 +1,4 @@
-import { SET_SEARCH_USER } from '../actions/types';
+import { SET_SEARCH_USER, SET_FETCH_USERS } from '../actions/types';
 
 const initialState = {
 	user: []
@@ -6,9 +6,11 @@ const initialState = {
 
 export default (state = initialState, action = {}) => {
 	switch(action.type) {
-		case SET_SEARCH_USER:
-			return Object.assign({}, state, { searchResult: action.searchResult })
+    case SET_FETCH_USERS:
+      return Object.assign({}, state, { user: action.data });
+	case SET_SEARCH_USER:
+	  return Object.assign({}, state, { searchResult: action.searchResult })
 		
-		default: return state;
-	}
+	default: return state;
+  }
 }

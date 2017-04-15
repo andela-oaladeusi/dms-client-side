@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import GuestPage from '../guest/GuestPage';
-import PublicDocuments from '../documents/PublicDocuments';
+import Documents from '../documents/Documents';
 
 class HomePage extends React.Component {
 
@@ -9,7 +9,7 @@ class HomePage extends React.Component {
 		const { isAuthenticated } = this.props;
     return (
       <div>
-			  {isAuthenticated ? <PublicDocuments /> : <GuestPage />}
+			  {isAuthenticated ? <Documents /> : <GuestPage />}
 			</div>
     );
   }
