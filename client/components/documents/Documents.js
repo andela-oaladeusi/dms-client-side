@@ -9,8 +9,6 @@ class Documents extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			avalaibleDoc: [],
-			pagination: '',
 			activePage: 1
 		}
 
@@ -23,18 +21,11 @@ class Documents extends React.Component {
 	}
 
 	showDocument(offset) {
-		this.props.avalaibleDocument(offset).then(
-			(res) => {
-				this.setState({ avalaibleDoc: res.data.documents.rows, pagination: res.data.pagination })
-			},
-			(err) => {
-				console.log(err);
-			}
-		)
+		this.props.avalaibleDocument(offset);
 	}
 
 	handleSelect(eventKey) {
-		const offset = (eventKey-1) * this.state.pagination.page_size;
+		const offset = (eventKey-1) * this.props.pagination.page_size;
 		this.showDocument(offset);
     this.setState({
       activePage: eventKey
@@ -46,7 +37,7 @@ class Documents extends React.Component {
 	}
 
 	render() {
-		const { avalaibleDoc, pagination } = this.state;
+		const { avalaibleDoc, pagination } = this.props;
 		const show = avalaibleDoc.map((doc, index) => <ShowDocuments key={index} doc={doc} />);
 		return (
 			<div className="row">
@@ -72,9 +63,13 @@ Documents.propTypes = {
 }
 
 function mapStateToProps(state) {
+  const avalaibleDoc = state.documents.docs;
+  const pagination = state.documents.pagination || {};
 	return {
 		auth: state.auth,
-		username: state.auth.user.username
+		username: state.auth.user.username,
+    avalaibleDoc,
+    pagination
 	}
 }
 

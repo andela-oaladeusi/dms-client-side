@@ -2,6 +2,8 @@ import axios from 'axios';
 import setAuthorisationToken from '../utils/setAuthorisationToken';
 import { SET_CURRENT_USER } from '../actions/types';
 
+const BASE_URL = process.env.BASE_URL;
+
 export function setCurrentUser(user) {
 	return {
 		type: SET_CURRENT_USER,
@@ -11,7 +13,7 @@ export function setCurrentUser(user) {
 
 export function logout() {
 	return dispatch => {
-		axios.post('https://andela-dms.herokuapp.com/users/logout');
+		axios.post(`${BASE_URL}/users/logout`);
 		localStorage.removeItem('jwtToken');
 		localStorage.removeItem('dmsUser');
 		setAuthorisationToken(false);
@@ -22,9 +24,8 @@ export function logout() {
 
 export function login(data) {
 	return dispatch => {
-		return axios.post('https://andela-dms.herokuapp.com/users/login', data)
+		return axios.post(`${BASE_URL}/users/login`, data)
 			.then(res => {
-				delete res.data.user.email;
 				const token = res.data.token;
 				const user = JSON.stringify(res.data.user);
 				const dmsUser = res.data.user;

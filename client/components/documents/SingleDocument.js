@@ -7,27 +7,17 @@ class SingleDocument extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			singleDoc: {}
-		}
+	}
+
+  componentDidMount() {
 		const title = this.props.params.title;
 		const regex = new RegExp(/(\d+)(?!.-)/);
 		const id = title.match(regex)[0];
 		this.getDocumentById(id);
-		this.getDocumentById = this.getDocumentById.bind(this);
-	}
+  }
 
 	getDocumentById(id) {
-		this.props.getDocumentById(id).then(
-			(res) => {
-				this.setState({ singleDoc: res.data.document });
-				return res.data.document;
-			},
-			(err) => {
-				console.log(err);
-			}
-		)
-
+		this.props.getDocumentById(id);
 	}
 
 	render() {
@@ -36,8 +26,8 @@ class SingleDocument extends React.Component {
 				<div className="col-md-3">
 					</div>
 						<div className="col-md-6">
-							<h1>{this.state.singleDoc.title}</h1>
-							<p>{this.state.singleDoc.content}</p>
+							<h1>{this.props.singleDoc.title}</h1>
+							<p>{this.props.singleDoc.content}</p>
 							<Link to="/" className="btn btn-default">See more documents</Link>
 							<hr/>
 						</div>
@@ -52,4 +42,11 @@ SingleDocument.propTypes = {
 	getDocumentById: React.PropTypes.func.isRequired
 }
 
-export default connect(null, { getDocumentById })(SingleDocument);
+function mapStateToProps(state) {
+  const singleDoc = state.documents.singleDoc || {}
+  return {
+    singleDoc
+  }
+}
+
+export default connect(mapStateToProps, { getDocumentById })(SingleDocument);

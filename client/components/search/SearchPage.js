@@ -79,8 +79,8 @@ class SearchPage extends React.Component{
 			renderSearchUser = showSearchUser.map((user, index) =>
 				<div key={index}>
 					<strong>{user.username}</strong>
-					<div>{user.firstname}</div>
-					<div>{user.id}</div>
+					<div>{`${user.firstname} ${user.lastname}`}</div>
+					<div>{user.about}</div>
 					<div onClick={() => this.redirectToUserPublicDocument(user)} className="btn btn-default">read more</div>
 					<hr/>
 				</div>

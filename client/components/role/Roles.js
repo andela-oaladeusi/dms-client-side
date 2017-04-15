@@ -37,7 +37,6 @@ class Roles extends React.Component {
         <Table striped bordered condensed hover>
 					<thead>
 						<tr>
-							<th>No.</th>
 							<th>ID</th>
               <th>Title</th>
 							<th>Created At</th>

@@ -28,8 +28,7 @@ class ShowDocuments extends React.Component {
 		this.setState({ show: true })
 	}
 
-	close(e) {
-		e.preventDefault();
+	close() {
 		this.setState({ show: false })
 	}
 
@@ -91,4 +90,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, {addFlashMessage})(ShowDocuments);
+export default connect(mapStateToProps, { addFlashMessage })(ShowDocuments);

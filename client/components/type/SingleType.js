@@ -9,7 +9,6 @@ class SingleType extends React.Component {
       const { index, type } = this.props;
       return (
         <tr>
-          <td>{index}</td>
           <td>{type.id}</td>
           <td>{type.title}</td>
 		      <td>{moment(type.createdAt).format("DD-MM-YYYY h:mm:ss")}</td>

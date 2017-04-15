@@ -37,7 +37,7 @@ class UserProfile extends React.Component {
 				</FormGroup>
 				<FormGroup controlId="formControlsTextarea" >
 					<ControlLabel>About YOU</ControlLabel>
-					<FormControl componentClass="textarea" placeholder="Type content here..." />
+					<FormControl componentClass="textarea" value={userInfo.about} placeholder="Type content here..." />
 				</FormGroup>
 				<button type="submit" className="btn btn-primary">Update Profile</button>
 			  </form>

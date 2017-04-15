@@ -10,12 +10,9 @@ class UserDocument extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			pagination: '',
-			userInfo: '',
-			documents: [],
-			activePage: 1
+			activePage: 1,
+      id: ''
 		}
-		this.fetchUserDocument = this.fetchUserDocument.bind(this);
 		this.handleSelect = this.handleSelect.bind(this);
 	}
 
@@ -27,19 +24,12 @@ class UserDocument extends React.Component {
 	}
 
 	fetchUserDocument(data) {
-		this.props.fetchUserDocument(data).then(
-			(res) => {
-				this.setState({ id: data.id, pagination: res.data.pagination, userInfo: res.data.userDocuments.user, documents: res.data.userDocuments.documents.rows });
-				return;
-			},
-			(err) => {
-				console.log(err);
-			}
-		)
+		this.props.fetchUserDocument(data);
+		this.setState({ id: data.id });
 	}
 
 	handleSelect(eventKey) {
-		const offset = (eventKey-1) * this.state.pagination.page_size;
+		const offset = (eventKey-1) * this.props.pagination.page_size;
 		this.fetchUserDocument({ id: this.state.id, offset });
     this.setState({
       activePage: eventKey
@@ -48,13 +38,14 @@ class UserDocument extends React.Component {
 
 
 	render() {
-		const { pagination, userInfo, documents } = this.state;
+		const { pagination, userInfo, documents } = this.props;
     const show = documents.map((doc, index) => <ShowDocuments key={index} doc={doc} />);
 		return (
 			<div className="row">
 				<div className="col-md-3">
-				  <h2>User</h2>
-					<div>{userInfo.username}</div>
+					<h4>{`${userInfo.username}`}</h4>
+					<div>{`${userInfo.firstname} ${userInfo.lastname}`}</div>
+					<div>{userInfo.about}</div>
 				</div>
 					<div className="col-md-6">
 						{show}
@@ -78,4 +69,15 @@ UserDocument.propTypes = {
 	fetchUserDocument: React.PropTypes.func.isRequired
 }
 
-export default connect(null, { fetchUserDocument })(UserDocument);
+function mapStateToProps(state) {
+  const documents = state.documents.userDoc || [];
+  const pagination = state.documents.pagination || {};
+  const userInfo = state.documents.userInfo || {};
+  return {
+    documents,
+    pagination,
+    userInfo
+  }
+}
+
+export default connect(mapStateToProps, { fetchUserDocument })(UserDocument);

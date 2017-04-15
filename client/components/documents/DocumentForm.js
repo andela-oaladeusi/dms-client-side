@@ -1,7 +1,8 @@
 import React from 'react';
 import TextFieldGroup from '../common/testFieldGroup';
 import { connect } from 'react-redux';
-import { createDocument, getDocumentType, updateDocument } from '../../actions/documentActions'
+import { createDocument, updateDocument } from '../../actions/documentActions';
+import { fetchTypes } from '../../actions/typeActions';
 import classnames from 'classnames';
 import { MenuItem, Button, Navbar, FormGroup, FormControl, DropdownButton, ControlLabel } from 'react-bootstrap';
 import NavigationBar from '../NavigationBar';
@@ -14,30 +15,24 @@ class DocumentForm extends React.Component {
 			type: props.type || '',
 			errors: {},
 			isLoading: false,
-			docType: [],
 			access: props.access || '',
 			docErr: false,
 			button: props.button || 'Save Document'
 		};
-		this.getType();
 		this.onChange = this.onChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
 	}
+
+  componentDidMount() {
+    this.getType();
+  }
 
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value })
 	}
 
 	getType(){
-		return this.props.getDocumentType().then(
-			(res) => {
-				this.setState({ docType: res.data.types.rows });
-				return res.data.types.rows;
-			},
-			(err) => {
-				console.log(err);
-			}
-		)
+    this.props.fetchTypes();
 	}
 
 	onSubmit(e) {
@@ -73,8 +68,8 @@ class DocumentForm extends React.Component {
 		const style2 = {
 			float: "right"
 		}
-		const { title, content, type, errors, isLoading, docType, access, docErr, button } = this.state;
-		const typeOption = docType.map((value, index) =>
+		const { title, content, type, errors, isLoading, access, docErr, button } = this.state;
+		const typeOption = this.props.docType.map((value, index) =>
 			<option key={index} value={value.title}>{value.title}</option>
 		);
 
@@ -123,17 +118,19 @@ class DocumentForm extends React.Component {
 
 DocumentForm.propTypes = {
 	createDocument: React.PropTypes.func.isRequired,
-	getDocumentType: React.PropTypes.func.isRequired,
+	fetchTypes: React.PropTypes.func.isRequired,
 	updateDocument: React.PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
 	const createDoc = state.documents.createDoc || false;
 	const updateDoc = state.documents.updateDoc || false;
+  const docType = state.types || [];
 	return {
 		createDoc,
-		updateDoc
+		updateDoc,
+    docType
 	}
 }
 
-export default connect(mapStateToProps, { createDocument, getDocumentType, updateDocument })(DocumentForm);
+export default connect(mapStateToProps, { createDocument, updateDocument, fetchTypes })(DocumentForm);

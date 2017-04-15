@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { SET_SEARCH_USER, SET_FETCH_USERS } from './types';
+import { SET_UPDATE_USER, SET_SEARCH_USER, SET_FETCH_USERS } from './types';
+
+
+const BASE_URL = process.env.BASE_URL;
 
 export function searchUserMessage(searchResult) {
 	return {
@@ -15,9 +18,16 @@ export function fetchUserMessage(data) {
 	}
 }
 
+export function updateUserMessage(data) {
+	return {
+		type: SET_UPDATE_USER,
+		data
+	}
+}
+
 export function listUsers() {
 	return dispatch => {
-		return axios.get('https://andela-dms.herokuapp.com/users')
+		return axios.get(`${BASE_URL}/users`)
       .then((res) => {
         return dispatch(fetchUserMessage(res.data.users.rows))
       })
@@ -27,19 +37,26 @@ export function listUsers() {
 	};
 }
 
-export function updateUser(data, id) {
+export function updateUser(id, data) {
 	return dispatch => {
-		return axios.put(`https://andela-dms.herokuapp.com/users/${id}`, data);
+		return axios.put(`${BASE_URL}/users/${id}`, data)
+      .then((res) => {
+        return dispatch(updateUserMessage(res.data.updatedUser));
+      })
+      .catch((err) => {
+        return dispatch(updateUserMessage(err.data));
+      });
 	};
 }
 
 export function searchUser(query) {
 	return dispatch => {
-		return axios.get(`https://andela-dms.herokuapp.com/users/search?query=${query}`).then((res) => {
-			return dispatch(searchUserMessage(res.data));
-		})
-		.catch((err) => {
-			return dispatch(searchUserMessage(err.data));
-		});
+		return axios.get(`${BASE_URL}/users/search?query=${query}`)
+      .then((res) => {
+			  return dispatch(searchUserMessage(res.data));
+		  })
+		  .catch((err) => {
+			  return dispatch(searchUserMessage(err.data));
+		  });
 	};
 }

@@ -1,6 +1,7 @@
-import axios from 'axios'
+import axios from 'axios';
 import { FETCH_ROLES_SUCCESS } from './types';
 
+const BASE_URL = process.env.BASE_URL;
 export function fetchRolesSuccess(data) {
   return {
     type: FETCH_ROLES_SUCCESS,
@@ -10,7 +11,7 @@ export function fetchRolesSuccess(data) {
 
 export function fetchRoles() {
   return dispatch => {
-    return axios.get('https://andela-dms.herokuapp.com/roles')
+    return axios.get(`${BASE_URL}/roles`)
       .then((res) => {
         return dispatch(fetchRolesSuccess(res.data.roles));
       })

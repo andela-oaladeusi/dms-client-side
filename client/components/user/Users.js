@@ -21,10 +21,6 @@ class Users extends React.Component {
 		this.props.listUsers();
 	}
 
-	enableDisableUser(e) {
-		
-	}
-
 	render() {
 		const style = {
 			float: "right",
@@ -41,7 +37,6 @@ class Users extends React.Component {
 				<Table striped bordered condensed hover>
 					<thead>
 						<tr>
-							<th>No.</th>
 							<th>ID</th>
 							<th>First Name</th>
 							<th>Last Name</th>
