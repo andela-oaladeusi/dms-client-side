@@ -11,7 +11,7 @@ export default function(ComposedComponent) {
 					text: 'You need to login to access this page'
 				});
 				this.context.router.push('/login');
-			} else if(this.props.user.id !== 1) {
+			} else if(this.props.user.roleId !== 1) {
 				this.props.addFlashMessage({
 					type: 'error',
 					text: 'Page not found'

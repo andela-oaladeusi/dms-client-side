@@ -38,11 +38,19 @@ class SignupForm extends React.Component {
 			this.setState({ errors: {}, isLoading: true })
 			this.props.userSignupRequest(this.state).then(
 				() => {
-					this.props.addFlashMessage({
-						type: 'success',
-						text: 'You have signed up successfully, WELCOME'
-					})
-					this.context.router.push('/');
+					if (!this.props.admin) {
+						this.props.addFlashMessage({
+							type: 'success',
+							text: 'You have signed up successfully, WELCOME'
+						});
+						this.context.router.push('/');
+					} else {
+						this.props.addFlashMessage({
+							type: 'success',
+							text: 'User Added'
+						});
+					}
+					this.props.callback(false);
 				},
 				(error) => {
 					this.props.addFlashMessage({
@@ -59,7 +67,7 @@ class SignupForm extends React.Component {
 		const { errors } = this.state;
 		return (
 			<form onSubmit={this.onSubmit}>
-				<h1>Join our community!</h1>
+				<h1>Join DMS Today!</h1>
 				<div>Create, Save and Share Your Documents</div>
 
 				<TextFieldGroup

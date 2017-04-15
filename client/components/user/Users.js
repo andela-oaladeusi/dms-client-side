@@ -1,13 +1,17 @@
 import React from 'react';
-import { Table, Button, ButtonToolbar } from 'react-bootstrap';
+import { Table, Button, ButtonToolbar, Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { listUsers } from '../../actions/userActions';
 import SingleUser from './SingleUser';
+import SignupPage from '../signup/SignupPage';
 
 class Users extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			show: false
+		}
 	}
 
   componentDidMount() {
@@ -21,18 +25,46 @@ class Users extends React.Component {
 		this.props.listUsers();
 	}
 
+	showModal() {
+		this.setState({ show: true });
+	}
+
+	showMessage(data) {
+		this.setState({ show: data })
+	}
+
+	closeModal() {
+		this.setState({ show: false });
+	}
+
 	render() {
 		const style = {
 			float: "right",
 			marginBottom: "10px"
 		}
+
+  const modal = (
+      <Modal
+				show={this.state.show}
+				onHide={() => this.closeModal()}
+				container={this}
+				aria-labelledby="contained-modal-title">
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title">ADD A USER</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+				   <SignupPage callback={(e) => this.showMessage(e)} admin={true}/>
+				</Modal.Body>
+      </Modal>
+    )
+
 		const { users } = this.props;
 		const list = users.map((user, index) => <SingleUser key={index} index={index} user={user} />);
 		return (
 			<div>
 				<div>
 					<h1>LIST OF USERS</h1>
-					<Button style={style}>Add</Button>
+					<Button onClick={() => this.showModal()}style={style}>Add</Button>
 				</div>
 				<Table striped bordered condensed hover>
 					<thead>
@@ -54,6 +86,7 @@ class Users extends React.Component {
 					  {list}
 					</tbody>
 				</Table>
+				{modal}
 			</div>
 		)
 	}

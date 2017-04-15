@@ -32,7 +32,7 @@ class DocumentForm extends React.Component {
 	}
 
 	getType(){
-    this.props.fetchTypes();
+      this.props.fetchTypes();
 	}
 
 	onSubmit(e) {

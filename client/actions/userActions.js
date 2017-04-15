@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_UPDATE_USER, SET_SEARCH_USER, SET_FETCH_USERS } from './types';
+import { SET_GET_USER, SET_UPDATE_USER, SET_SEARCH_USER, SET_FETCH_USERS, SET_CREATE_USER } from './types';
 
 
 const BASE_URL = process.env.BASE_URL;
@@ -21,6 +21,20 @@ export function fetchUserMessage(data) {
 export function updateUserMessage(data) {
 	return {
 		type: SET_UPDATE_USER,
+		data
+	}
+}
+
+export function signupRequest(data) {
+	return {
+		type: SET_CREATE_USER,
+		data
+	}
+}
+
+export function getUserMessage(data) {
+	return {
+		type: SET_GET_USER,
 		data
 	}
 }
@@ -58,5 +72,29 @@ export function searchUser(query) {
 		  .catch((err) => {
 			  return dispatch(searchUserMessage(err.data));
 		  });
+	};
+}
+
+export function userSignupRequest(userData) {
+	return dispatch => {
+		return axios.post(`${BASE_URL}/users/`, userData)
+			.then((res) => {
+				return dispatch(signupRequest(res.data.user));
+			})
+			.catch((err) => {
+				return dispatch(signupRequest(err.data.message));
+			});
+	}
+}
+
+export function getUser(id) {
+	return dispatch => {
+		return axios.get(`${BASE_URL}/users/${id}`)
+      .then((res) => {
+        return dispatch(getUserMessage(res.data.user));
+      })
+      .catch((err) => {
+        return dispatch(getUserMessage(err.data));
+      });
 	};
 }
