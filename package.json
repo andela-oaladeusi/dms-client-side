@@ -49,6 +49,7 @@
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",
+    "react-facebook": "^2.2.10",
     "react-loading": "0.0.9",
     "react-markdown-editor": "^0.5.0",
     "react-marked-markdown": "^1.4.2",

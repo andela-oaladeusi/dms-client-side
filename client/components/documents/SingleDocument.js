@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { getDocumentById } from '../../actions/documentActions'
+import FacebookProvider, { Comments } from 'react-facebook';
+
 
 class SingleDocument extends React.Component {
 
@@ -14,7 +16,7 @@ class SingleDocument extends React.Component {
 		const regex = new RegExp(/(\d+)(?!.-)/);
 		const id = title.match(regex)[0];
 		this.getDocumentById(id);
-  }
+  }	
 
 	getDocumentById(id) {
 		this.props.getDocumentById(id);
@@ -30,6 +32,9 @@ class SingleDocument extends React.Component {
 							<p>{this.props.singleDoc.content}</p>
 							<Link to="/" className="btn btn-default">See more documents</Link>
 							<hr/>
+							<FacebookProvider appID={process.env.APP_ID}>
+        				<Comments href={`localhost:3000${this.props.location.pathname}`} />
+      				</FacebookProvider>
 						</div>
 					<div className="col-md-3">
 				</div>

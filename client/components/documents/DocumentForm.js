@@ -97,7 +97,7 @@ class DocumentForm extends React.Component {
 				<FormGroup controlId="formControlsSelect" >
 					<ControlLabel>Type</ControlLabel>
 					<FormControl componentClass="select" placeholder="select" name="type" onChange={this.onChange}>
-						<option value="">Choose Document's Type</option>
+						<option value={type}>Choose Document's Type</option>
 						{typeOption}
 					</FormControl>
 				</FormGroup>
@@ -105,7 +105,7 @@ class DocumentForm extends React.Component {
 				<FormGroup controlId="formControlsSelect" >
 					<ControlLabel>Access</ControlLabel>
 					<FormControl componentClass="select" placeholder="select" name="access" onChange={this.onChange}>
-						<option value="">Document Access</option>
+						<option value={access}>Document Access</option>
 						{accessOption}
 					</FormControl>
 				</FormGroup>
