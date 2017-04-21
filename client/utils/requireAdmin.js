@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addFlashMessage } from '../actions/flashMessages';
+import Auth from '../utils/auth';
 
 export default function(ComposedComponent) {
 	class Authenticate extends React.Component {
@@ -11,7 +12,7 @@ export default function(ComposedComponent) {
 					text: 'You need to login to access this page'
 				});
 				this.context.router.push('/login');
-			} else if(this.props.user.roleId !== 1) {
+			} else if(!Auth.validateAdmin(this.props.user)) {
 				this.props.addFlashMessage({
 					type: 'error',
 					text: 'Page not found'

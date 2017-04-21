@@ -1,18 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Panel, Popover, OverlayTrigger, Glyphicon } from 'react-bootstrap';
 import DocumentForm from './DocumentForm';
 import { addFlashMessage } from '../../actions/flashMessages';
+import { deleteDocument } from '../../actions/documentActions'
 import moment from 'moment';
+import Auth from '../../utils/auth';
 
 class ShowDocuments extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			show: false
+			show: false,
+			docAccess: false
 		}
+	}
+
+	componentDidMount() {
+	  const docAccess = Auth.docAccess(this.props.userInfo, this.props.doc);
+	  this.setState({ docAccess });
 	}
 
 	showMessage(data) {
@@ -33,33 +41,48 @@ class ShowDocuments extends React.Component {
 	}
 
   deleteDoc(e) {
-		console.log(e);
+	  e.preventDefault();
+		this.props.deleteDocument(this.props.doc.id);
 	}
 
 	disableDoc(e) {
-		console.log(e);
+		e.preventDefault();	
 	}
 
-	redirecToFullDocument(full) {
+	redirecPage(full) {
 		this.context.router.push(full);
 	}
 
 	render() {
 		const { doc, userInfo } = this.props;
-		const full = `/documents/${doc.id}-${doc.title}`
+		const { docAccess } = this.state;
+		const docRedirect = doc.title.replace(new RegExp(/[' ',.]/g), '-');
+		const documentFullLink = `/documents/${doc.id}-${docRedirect}`
+    const userFullLink = `/users/${doc.ownerId}-other/documents`
+
+    const popoverBottom = (
+      <Popover id="popover-positioned-bottom" title="">
+        {docAccess
+          ? <div><a className="btn" onClick={(e) => this.editDoc(e)}>Edit Document</a> <br/>
+            <a className="btn" onClick={(e) => this.deleteDoc(e)}>Delete Document</a> </div>
+          : ''}
+        {this.props.others
+          ? <a onClick={(e) => this.redirecPage(userFullLink)} className="btn">User Document</a>
+          : ''}
+      </Popover>
+    );
+
 		return (
 			<div>
-				<h1>{doc.title}</h1>
-				<p>{doc.content.substring(0, 600)+'...'}</p>
-				<hr/>
-				<p>Access: {doc.access}</p>
-				<p>Category: {doc.type}</p>
-				<p>Published Date: {moment(doc.createdAt).format("DD-MM-YYYY")}</p>
-					{userInfo.id === doc.ownerId ? <Button onClick={(e) => this.editDoc(e)}>Edit</Button> : ''}
-					{userInfo.id === doc.ownerId ? <Button onClick={(e) => this.deleteDoc(e)}>Delete</Button> : ''}
-					{userInfo.id === doc.ownerId ? <Button onClick={(e) => this.disableDoc(e)}>Disable</Button> : ''}
-				<button onClick={(e) => this.redirecToFullDocument(full)} className="btn btn-default">More info</button>
-				<hr/>
+        <Panel header={`${doc.type}, published on ${moment(doc.createdAt).format("DD-MM-YYYY")} by ${doc.ownerId}`}>
+          <h3>{doc.title}</h3>
+          <p>{doc.content.substring(0, 400)+'...'}</p>
+          <p onClick={(e) => this.redirecPage(documentFullLink)} className="btn">Read more ...</p>
+          <hr/>
+            <OverlayTrigger trigger="click" placement="bottom" overlay={popoverBottom}>
+              <div className="btn"><Glyphicon glyph="menu-down" /></div>
+            </OverlayTrigger>
+        </Panel>
 				
 				<Modal
 					show={this.state.show}
@@ -90,4 +113,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { addFlashMessage })(ShowDocuments);
+export default connect(mapStateToProps, { addFlashMessage, deleteDocument })(ShowDocuments);

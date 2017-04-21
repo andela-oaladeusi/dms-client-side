@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SET_USER_DOCUMENT, SET_AVAILABLE_DOCUMENT, SET_SINGLE_DOCUMENT, CREATE_DOCUMENT_MESSAGE, UPDATE_DOCUMENT_MESSAGE, SEARCH_DOCUMENT_MESSAGE } from '../actions/types';
+import { SET_USER_DOCUMENT, SET_AVAILABLE_DOCUMENT, SET_SINGLE_DOCUMENT, CREATE_DOCUMENT_MESSAGE, UPDATE_DOCUMENT_MESSAGE, DELETE_DOCUMENT_MESSAGE, SEARCH_DOCUMENT_MESSAGE } from '../actions/types';
 
 const BASE_URL = process.env.BASE_URL;
 
@@ -38,6 +38,13 @@ export function updateDocumentMessage(done) {
 	}
 }
 
+export function deleteDocumentMessage(done) {
+	return {
+		type: DELETE_DOCUMENT_MESSAGE,
+		deleteDoc: done
+	}
+}
+
 export function searchDocumentMessage(searchResult) {
 	return {
 		type: SEARCH_DOCUMENT_MESSAGE,
@@ -65,6 +72,16 @@ export function updateDocument(document, id) {
 	};
 }
 
+export function deleteDocument(id) {
+	return dispatch => {
+		return axios.delete(`${BASE_URL}/documents/${id}`).then(res => {
+			dispatch(deleteDocumentMessage(true));
+		})
+		.catch(err =>
+			dispatch(deleteDocumentMessage(err.data.message)));
+	};
+}
+
 export function searchDocument(query) {
 	return dispatch => {
 		return axios.get(`${BASE_URL}/documents/search/?query=${query.query}&offset=${query.offset}`).then(res => {
@@ -74,12 +91,6 @@ export function searchDocument(query) {
 			dispatch(searchDocumentMessage(err.data.message));
 		})
 	}
-}
-
-export function publicDocument() {
-	return dispatch => {
-		return axios.get(`${BASE_URL}/documents/public`);
-	};
 }
 
 export function getDocumentById(id) {

@@ -39,7 +39,7 @@ class UserDocument extends React.Component {
 
 	render() {
 		const { pagination, userInfo, documents } = this.props;
-    const show = documents.map((doc, index) => <ShowDocuments key={index} doc={doc} />);
+    const show = documents.map((doc, index) => <ShowDocuments key={index} doc={doc} others={false}/>);
 		return (
 			<div className="row">
 				<div className="col-md-3">

@@ -35,7 +35,8 @@ class SearchPage extends React.Component{
   }
 
 	redirecToFullDocument(doc) {
-		const full = `/documents/${doc.id}-${doc.title}`
+		const docRedirect = doc.title.replace(new RegExp(/[' ',.]/g), '-');
+		const full = `/documents/${doc.id}-${docRedirect}`
 		window.location = full;
 	}
 
@@ -153,7 +154,6 @@ SearchPage.contextTypes = {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
 	return {
 		docSearchResult: state.documents.searchResult,
 		userSearchResult: state.users.searchResult

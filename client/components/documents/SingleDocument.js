@@ -31,9 +31,10 @@ class SingleDocument extends React.Component {
 							<h1>{this.props.singleDoc.title}</h1>
 							<p>{this.props.singleDoc.content}</p>
 							<Link to="/" className="btn btn-default">See more documents</Link>
+							<Link to={`/users/${this.props.singleDoc.ownerId}-other/documents`} className="btn btn-default">See user's documents</Link>
 							<hr/>
 							<FacebookProvider appID={process.env.APP_ID}>
-        				<Comments href={`localhost:3000${this.props.location.pathname}`} />
+        				<Comments href={`${process.env.HOME_URL}${this.props.location.pathname}`} />
       				</FacebookProvider>
 						</div>
 					<div className="col-md-3">

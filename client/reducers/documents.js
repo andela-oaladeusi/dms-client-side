@@ -1,4 +1,4 @@
-import { SET_USER_DOCUMENT, SET_AVAILABLE_DOCUMENT, SET_SINGLE_DOCUMENT, CREATE_DOCUMENT_MESSAGE, UPDATE_DOCUMENT_MESSAGE, SEARCH_DOCUMENT_MESSAGE } from '../actions/types'
+import { SET_USER_DOCUMENT, DELETE_DOCUMENT_MESSAGE, SET_AVAILABLE_DOCUMENT, SET_SINGLE_DOCUMENT, CREATE_DOCUMENT_MESSAGE, UPDATE_DOCUMENT_MESSAGE, SEARCH_DOCUMENT_MESSAGE } from '../actions/types'
 const initialState = {
 	docs: []
 }
@@ -24,6 +24,9 @@ export default (state = initialState, action = {}) => {
 
 		case SEARCH_DOCUMENT_MESSAGE:
 			return Object.assign({}, state, { searchResult: action.searchResult });
+		
+		case DELETE_DOCUMENT_MESSAGE:
+			return state;
 
 		default: return state;
 	}

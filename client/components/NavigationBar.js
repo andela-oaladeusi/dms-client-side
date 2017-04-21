@@ -6,14 +6,20 @@ import { Modal, OverlayTrigger, MenuItem, Button, Navbar, FormGroup, FormControl
 import DocumentForm from '../components/documents/DocumentForm';
 import { addFlashMessage } from '../actions/flashMessages';
 import SearchPage from '../components/search/SearchPage';
+import Auth from '../utils/auth';
 
 class NavigationBar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			show: false,
-			searchQuery: ''
+			searchQuery: '',
+			admin: false
 		}
+	}
+	componentDidMount(){
+	  const admin = Auth.validateAdmin(this.props.auth.user);
+	  this.setState({ admin });
 	}
 
 	logout(e) {
@@ -41,7 +47,7 @@ class NavigationBar extends React.Component {
 
 	render() {
 		const { isAuthenticated, user, createDoc } = this.props.auth;
-		const { showSearch } = this.state;
+		const { showSearch, admin } = this.state;
 		const styleS = {
 			width: "300px",
 			marginTop: "6px",
@@ -52,9 +58,9 @@ class NavigationBar extends React.Component {
 
 		const userLinks = (
 			<ul className="nav navbar-nav navbar-right">
-				{ user.roleId === 1 ? <li> <Link to="/users/list">Users</Link></li> : '' }
-                { user.roleId === 1 ? <li> <Link to="/roles/list">Roles</Link></li> : '' }
-                { user.roleId === 1 ? <li> <Link to="/types/list">Types</Link></li> : '' }
+				{ admin ? <li> <Link to="/users/list">Users</Link></li> : '' }
+                { admin ? <li> <Link to="/roles/list">Roles</Link></li> : '' }
+                { admin ? <li> <Link to="/types/list">Types</Link></li> : '' }
 				<li> <Link to={userDoc}>My Document</Link></li>
 				<li> <a onClick={this.show.bind(this)}>Write a Document</a></li>
 				<li> <a href="#" onClick={this.logout.bind(this)}>Logout</a></li>

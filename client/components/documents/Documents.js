@@ -38,7 +38,7 @@ class Documents extends React.Component {
 
 	render() {
 		const { avalaibleDoc, pagination } = this.props;
-		const show = avalaibleDoc.map((doc, index) => <ShowDocuments key={index} doc={doc} />);
+		const show = avalaibleDoc.map((doc, index) => <ShowDocuments key={index} doc={doc} others={true}/>);
 		return (
 			<div className="row">
 				<div className="col-md-3">
