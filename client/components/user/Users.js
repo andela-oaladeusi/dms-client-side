@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button, ButtonToolbar, Modal } from 'react-bootstrap';
+import { Table, Button, ButtonToolbar, Modal, Glyphicon } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { listUsers } from '../../actions/userActions';
@@ -64,7 +64,7 @@ class Users extends React.Component {
 			<div>
 				<div>
 					<h1>LIST OF USERS</h1>
-					<Button onClick={() => this.showModal()}style={style}>Add</Button>
+					<Button onClick={() => this.showModal()}style={style}><Glyphicon glyph="plus" /></Button>
 				</div>
 				<Table striped bordered condensed hover>
 					<thead>

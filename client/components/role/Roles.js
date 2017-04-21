@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchRoles, createRole } from '../../actions/roleActions';
-import { Table, Button, Modal, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Table, Button, Modal, FormGroup, ControlLabel, FormControl, Glyphicon } from 'react-bootstrap';
 import SingleRole from './SingleRole';
 
 class Roles extends React.Component {
@@ -78,7 +78,7 @@ class Roles extends React.Component {
       <div>
 				<div>
 					<h1>LIST OF ROLES</h1>
-					<Button onClick={() => this.showModal()}style={style}>Add</Button>
+					<Button onClick={() => this.showModal()}style={style}><Glyphicon glyph="plus" /></Button>
 				</div>
         <Table striped bordered condensed hover>
 					<thead>

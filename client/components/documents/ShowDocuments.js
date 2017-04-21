@@ -72,6 +72,10 @@ class ShowDocuments extends React.Component {
       </Popover>
     );
 
+    const st = {
+      float: "right"
+    }
+
 		return (
 			<div>
         <Panel header={`${doc.type}, published on ${moment(doc.createdAt).format("DD-MM-YYYY")} by ${doc.ownerId}`}>
@@ -79,9 +83,10 @@ class ShowDocuments extends React.Component {
           <p>{doc.content.substring(0, 400)+'...'}</p>
           <p onClick={(e) => this.redirecPage(documentFullLink)} className="btn">Read more ...</p>
           <hr/>
-            <OverlayTrigger trigger="click" placement="bottom" overlay={popoverBottom}>
-              <div className="btn"><Glyphicon glyph="menu-down" /></div>
-            </OverlayTrigger>
+					<div className="btn"><Glyphicon glyph="heart-empty" /></div>
+          <OverlayTrigger trigger="click" rootClose={true} placement="bottom" overlay={popoverBottom}>
+            <div className="btn" style={st}><Glyphicon glyph="menu-down" /></div>
+          </OverlayTrigger>
         </Panel>
 				
 				<Modal

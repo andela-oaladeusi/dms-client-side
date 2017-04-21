@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { logout } from '../actions/authActions';
-import { Modal, OverlayTrigger, MenuItem, Button, Navbar, FormGroup, FormControl, DropdownButton, InputGroup, Popover } from 'react-bootstrap';
+import { Glyphicon, Modal, OverlayTrigger, MenuItem, Button, Navbar, FormGroup, FormControl, DropdownButton, InputGroup, Popover } from 'react-bootstrap';
 import DocumentForm from '../components/documents/DocumentForm';
 import { addFlashMessage } from '../actions/flashMessages';
 import SearchPage from '../components/search/SearchPage';
@@ -56,16 +56,18 @@ class NavigationBar extends React.Component {
 
 		const userDoc = `users/${user.id}-${user.username}/documents/`;
 
-		const userLinks = (
-			<ul className="nav navbar-nav navbar-right">
-				{ admin ? <li> <Link to="/users/list">Users</Link></li> : '' }
-                { admin ? <li> <Link to="/roles/list">Roles</Link></li> : '' }
-                { admin ? <li> <Link to="/types/list">Types</Link></li> : '' }
-				<li> <Link to={userDoc}>My Document</Link></li>
-				<li> <a onClick={this.show.bind(this)}>Write a Document</a></li>
-				<li> <a href="#" onClick={this.logout.bind(this)}>Logout</a></li>
-				<li> <Link to="/users/profile">{user.username}</Link></li>
-			</ul>
+		const registeredLinks = (
+      <div>
+				{ admin ? <p> <Link to="/users/list">List Users</Link></p> : '' }
+        { admin ? <p> <Link to="/roles/list">List Roles</Link></p> : '' }
+        { admin ? <p> <Link to="/types/list">List Types</Link></p> : '' }
+        { admin ? <p> <Link to="/types/list">List Documents</Link></p> : '' }
+        { admin ? <hr/> : '' }
+        <p> <Link to={userDoc}>Personal Documents</Link></p>
+				<p> <Link to="/users/profile">Profile</Link></p>
+        <hr/>
+        <p> <a href="#" onClick={this.logout.bind(this)}>Logout</a></p>
+			</div>
 		);
 
 		const guestLinks = (
@@ -75,11 +77,18 @@ class NavigationBar extends React.Component {
 			</ul>
 		);
 
-		const popOverSearch = (
-      <Popover id="popover-positioned-scrolling-top" title="Search Result">
-				<SearchPage status={'popover'} searchQuery={this.state.searchQuery}/>
+		const popoverProfile = (
+      <Popover id="popover-positioned-bottom" title={`Hi! ${user.username}`}>
+        {registeredLinks}
       </Popover>
-    );
+		);
+
+
+	const popOverSearch = (
+    <Popover id="popover-positioned-scrolling-top" title="Search Result">
+      <SearchPage status={'popover'} searchQuery={this.state.searchQuery}/>
+    </Popover>
+  );
 
 		const search = (
 			<Navbar.Form pullRight>
@@ -88,6 +97,18 @@ class NavigationBar extends React.Component {
 				</OverlayTrigger>
 			</Navbar.Form>
 		);
+
+    const st = {
+      marginTop: "7px"
+    }
+    const profileOverlay = (
+		  <ul className="nav navbar-nav navbar-right">
+        <li> <a onClick={this.show.bind(this)}>Write a Document</a></li>
+          <OverlayTrigger trigger="click" rootClose={true} placement="bottom" overlay={popoverProfile}>
+            <div className="btn" style={st}><Glyphicon glyph="user" />{user.username}</div>
+          </OverlayTrigger>
+		 </ul>
+	  )
 
 		return (
 			<nav className="navbar navbar-default">
@@ -98,7 +119,7 @@ class NavigationBar extends React.Component {
 
 					<div className="collapse navbar-collapse">
 						{this.props.auth.isAuthenticated ? search : ''}
-						{ isAuthenticated ? userLinks : guestLinks }
+						{ isAuthenticated ? profileOverlay : guestLinks }
 					</div>
 				</div>
 
@@ -106,8 +127,7 @@ class NavigationBar extends React.Component {
           show={this.state.show}
           onHide={this.close.bind(this)}
           container={this}
-          aria-labelledby="contained-modal-title"
-        >
+          aria-labelledby="contained-modal-title">
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title">Create Document</Modal.Title>
           </Modal.Header>
